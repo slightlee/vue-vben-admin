@@ -2,42 +2,42 @@
 outline: deep
 ---
 
-# 路由和菜单
+# Routing and Menus
 
-在项目中，框架提供了一套基础的路由系统，并**根据路由文件自动生成对应的菜单结构**。
+In the project, the framework provides a basic routing system and **automatically generates the corresponding menu structure based on the routing file**.
 
-## 路由类型
+## Route Types
 
-路由分为静态路由和动态路由，静态路由是在项目启动时就已经确定的路由。动态路由一般是在用户登录后，根据用户的权限动态生成的路由。
+Routes are divided into static routes and dynamic routes. Static routes are routes that have been determined when the project starts. Dynamic routes are generally routes that are dynamically generated based on the user's permissions after the user logs in.
 
-### 静态路由
+### Static Routes
 
-如果你的页面项目不需要权限控制，可以直接使用静态路由，静态路由的配置在应用下 `src/router/routes/index` 目录下，打开注释的文件内容:
+If your page project does not require permission control, you can directly use static routes. The configuration of static routes is in the `src/router/routes/index` directory under the application. Open the commented file content:
 
 ```ts
-// 有需要可以自行打开注释，并创建文件夹
+// If necessary, you can open your own comments and create folders
 // const externalRouteFiles = import.meta.glob('./external/**/*.ts', { eager: true }); // [!code --]
 const staticRouteFiles = import.meta.glob('./static/**/*.ts', { eager: true }); // [!code ++]
-/** 动态路由 */
+/** Dynamic routing */
 const dynamicRoutes: RouteRecordRaw[] = mergeRouteModules(dynamicRouteFiles);
 
-/** 外部路由列表，访问这些页面可以不需要Layout，可能用于内嵌在别的系统 */
+/** External routing lists, which can be accessed without Layout, may be used for embedding in other systems */
 // const externalRoutes: RouteRecordRaw[] = mergeRouteModules(externalRouteFiles) // [!code --]
 const externalRoutes: RouteRecordRaw[] = []; // [!code --]
 const externalRoutes: RouteRecordRaw[] = mergeRouteModules(externalRouteFiles); // [!code ++]
 ```
 
-### 动态路由
+### Dynamic routing
 
-动态路由的配置在对应应用 `src/router/routes/modules` 目录下，这个目录下存放了所有的路由文件。每个文件的内容格式如下，与 Vue Router 的路由配置格式一致，以下为二级路由和多级路由的配置。
+The configuration of dynamic routing is in the corresponding application `src/router/routes/modules` directory. All routing files are stored in this directory. The content format of each file is as follows, which is consistent with the routing configuration format of Vue Router. The following is the configuration of secondary routes and multi-level routes.
 
-## 路由定义
+## Define the route
 
-静态路由与动态路由的配置方式一致，以下为二级路由和多级路由的配置：
+Static routes and dynamic routes are configured in the same way. The configuration of the level-2 and multi-level routes is as follows:
 
-### 二级路由
+### Secondary route
 
-::: details 二级路由示例代码
+::: details Example code of the secondary route
 
 ```ts
 import type { RouteRecordRaw } from 'vue-router';
@@ -81,16 +81,17 @@ export default routes;
 
 :::
 
-### 多级路由
+### Multilevel routing
 
 ::: tip
 
-- 多级路由的父级路由无需设置 `component` 属性，只需设置 `children` 属性即可。除非你真的需要在父级路由嵌套下显示内容。
-- 如果没有特殊情况，父级路由的 `redirect` 属性，不需要指定，默认会指向第一个子路由。
+- The parent route of multi-level routing does not need to set the 'component' attribute, only the 'children' attribute needs to be set. Unless you really need to display content under nested parent routing.
+
+- If there are no special circumstances, the 'redirect' attribute of the parent route does not need to be specified and will default to the first child route.
 
 :::
 
-::: details 多级路由示例代码
+::: details Multilevel Routing Example Code
 
 ```ts
 import type { RouteRecordRaw } from 'vue-router';
@@ -207,13 +208,13 @@ export default routes;
 
 :::
 
-## 新增页面
+## Add a New Page
 
-新增一个页面，你只需要添加一个路由及对应的页面组件即可。
+To add a new page, you only need to add a route and the corresponding page component.
 
-### 添加路由
+### Add a Route
 
-在对应的路由文件中添加一个路由对象，如下：
+Add a route object in the corresponding routing file as follows:
 
 ```ts
 import type { RouteRecordRaw } from 'vue-router';
@@ -250,9 +251,9 @@ const routes: RouteRecordRaw[] = [
 export default routes;
 ```
 
-### 添加页面组件
+### Add Page Component
 
-在`#/views/home/`下，新增一个`index.vue`文件，如下：
+In `#/views/home/`, add a new `index.vue` file as follows:
 
 ```vue
 <template>
@@ -262,13 +263,13 @@ export default routes;
 </template>
 ```
 
-### 验证
+### Verification
 
-到这里页面已添加完成，访问 `http://localhost:5555/home/index` 出现对应的页面即可。
+At this point, the page has been added. Access `http://localhost:5555/home/index` to see the corresponding page.
 
-## 路由配置
+## Route Configuration
 
-路由配置项主要在对象路由的 `meta` 属性中，以下为常用的配置项：
+The route configuration mainly resides in the `meta` attribute of the route object. Below are some commonly used configuration items：
 
 ```ts {5-8}
 const routes = [
@@ -283,43 +284,44 @@ const routes = [
 ];
 ```
 
-::: details 路由Meta配置类型定义
+::: details Route Meta Configuration Type Definition
 
 ```ts
 interface RouteMeta {
   /**
-   * 激活图标（菜单）
+   * Active icon (menu)
    */
   activeIcon?: string;
   /**
-   * 当前激活的菜单，有时候不想激活现有菜单，需要激活父级菜单时使用
+   * The currently active menu, used when you want to activate a parent menu instead of the existing one
+   * @default false
    */
   activePath?: string;
   /**
-   * 是否固定标签页
+   * Whether to affix the tab
    * @default false
    */
   affixTab?: boolean;
   /**
-   * 固定标签页的顺序
+   * The order of the affixed tab
    * @default 0
    */
   affixTabOrder?: number;
   /**
-   * 需要特定的角色标识才可以访问
+   * Specific role identifiers required for access
    * @default []
    */
   authority?: string[];
   /**
-   * 徽标
+   * Badge
    */
   badge?: string;
   /**
-   * 徽标类型
+   * Badge type
    */
   badgeType?: 'dot' | 'normal';
   /**
-   * 徽标颜色
+   * Badge color
    */
   badgeVariants?:
     | 'default'
@@ -329,65 +331,65 @@ interface RouteMeta {
     | 'warning'
     | string;
   /**
-   * 当前路由的子级在菜单中不展现
+   * Children of the current route do not show in the menu
    * @default false
    */
   hideChildrenInMenu?: boolean;
   /**
-   * 当前路由在面包屑中不展现
+   * The current route does not show in the breadcrumb
    * @default false
    */
   hideInBreadcrumb?: boolean;
   /**
-   * 当前路由在菜单中不展现
+   * The current route does not show in the menu
    * @default false
    */
   hideInMenu?: boolean;
   /**
-   * 当前路由在标签页不展现
+   * The current route does not show in tabs
    * @default false
    */
   hideInTab?: boolean;
   /**
-   * 图标（菜单/tab）
+   * Icon (menu/tab)
    */
   icon?: string;
   /**
-   * iframe 地址
+   * iframe address
    */
   iframeSrc?: string;
   /**
-   * 忽略权限，直接可以访问
+   * Ignore access, can be accessed directly
    * @default false
    */
   ignoreAccess?: boolean;
   /**
-   * 开启KeepAlive缓存
+   * Enable KeepAlive caching
    */
   keepAlive?: boolean;
   /**
-   * 外链-跳转路径
+   * External link - redirect path
    */
   link?: string;
   /**
-   * 路由是否已经加载过
+   * Whether the route has been loaded
    */
   loaded?: boolean;
   /**
-   * 标签页最大打开数量
+   * Maximum number of open tabs
    * @default false
    */
   maxNumOfOpenTab?: number;
   /**
-   * 菜单可以看到，但是访问会被重定向到403
+   * The menu is visible, but access will be redirected to 403
    */
   menuVisibleWithForbidden?: boolean;
   /**
-   * 用于路由->菜单排序
+   * Used for route->menu sorting
    */
   order?: number;
   /**
-   * 标题名称
+   * Title name
    */
   title: string;
 }
@@ -397,154 +399,154 @@ interface RouteMeta {
 
 ### title
 
-- 类型：`string`
-- 默认值：`''`
+- Type: `string`
+- Default value: `''`
 
-用于配置页面的标题，会在菜单和标签页中显示。一般会配合国际化使用。
+Used to configure the page title, which will be displayed in the menu and tabs. It is generally used in conjunction with internationalization.
 
 ### icon
 
-- 类型：`string`
-- 默认值：`''`
+- Type: `string`
+- Default value: `''`
 
-用于配置页面的图标，会在菜单和标签页中显示。一般会配合图标库使用，如果是`http`链接，会自动加载图片。
+Used to configure the page icon, which will be displayed in the menu and tabs. It is generally used in conjunction with an icon library. If it is an `http` link, the image will be automatically loaded.
 
 ### activeIcon
 
-- 类型：`string`
-- 默认值：`''`
+- Type: `string`
+- Default value: `''`
 
-用于配置页面的激活图标，会在菜单中显示。一般会配合图标库使用，如果是`http`链接，会自动加载图片。
+Used to configure the active icon of the page, which will be displayed in the menu. It is generally used in conjunction with an icon library. If it is an `http` link, the image will be automatically loaded.
 
 ### keepAlive
 
-- 类型：`boolean`
-- 默认值：`false`
+- Type: `boolean`
+- Default value: `false`
 
-用于配置页面是否开启缓存，开启后页面会缓存，不会重新加载，仅在标签页启用时有效。
+Used to configure whether the page caching is enabled. Once enabled, the page will be cached and not reloaded, only effective when tabs are enabled.
 
 ### hideInMenu
 
-- 类型：`boolean`
-- 默认值：`false`
+- Type: `boolean`
+- Default value: `false`
 
-用于配置页面是否在菜单中隐藏，隐藏后页面不会在菜单中显示。
+Used to configure whether the page is hidden in the menu. If hidden, the page will not be displayed in the menu.
 
 ### hideInTab
 
-- 类型：`boolean`
-- 默认值：`false`
+- Type: `boolean`
+- Default value: `false`
 
-用于配置页面是否在标签页中隐藏，隐藏后页面不会在标签页中显示。
+Used to configure whether the page is hidden in tabs. If hidden, the page will not be displayed in tabs.
 
 ### hideInBreadcrumb
 
-- 类型：`boolean`
-- 默认值：`false`
+- Type: `boolean`
+- Default value: `false`
 
-用于配置页面是否在面包屑中隐藏，隐藏后页面不会在面包屑中显示。
+Used to configure whether the page is hidden in the breadcrumb. If hidden, the page will not be displayed in the breadcrumb.
 
 ### hideChildrenInMenu
 
-- 类型：`boolean`
-- 默认值：`false`
+- Type: `boolean`
+- Default value: `false`
 
-用于配置页面的子页面是否在菜单中隐藏，隐藏后子页面不会在菜单中显示。
+Used to configure whether the child pages of the page are hidden in the menu. If hidden, the child pages will not be displayed in the menu.
 
 ### authority
 
-- 类型：`string[]`
-- 默认值：`[]`
+- Type: `string[]`
+- Default value: `[]`
 
-用于配置页面的权限，只有拥有对应权限的用户才能访问页面，不配置则不需要权限。
+Used to configure the page's permissions. Only users with corresponding permissions can access the page. If not configured, no permissions are required.
 
 ### badge
 
-- 类型：`string`
-- 默认值：`''`
+- Type: `string`
+- Default value: `''`
 
-用于配置页面的徽标，会在菜单显示。
+Used to configure the page's badge, which will be displayed in the menu.
 
 ### badgeType
 
-- 类型：`'dot' | 'normal'`
-- 默认值：`'normal'`
+- Type: `'dot' | 'normal'`
+- Default value: `'normal'`
 
-用于配置页面的徽标类型，`dot` 为小红点，`normal` 为文本。
+Used to configure the type of the page's badge. `dot` is a small red dot, `normal` is text.
 
 ### badgeVariants
 
-- 类型：`'default' | 'destructive' | 'primary' | 'success' | 'warning' | string`
-- 默认值：`'success'`
+- Type: `'default' | 'destructive' | 'primary' | 'success' | 'warning' | string`
+- Default value: `'success'`
 
-用于配置页面的徽标颜色。
+Used to configure the color of the page's badge.
 
 ### activePath
 
-- 类型：`string`
-- 默认值：`''`
+- Type: `string`
+- Default value: `''`
 
-用于配置当前激活的菜单，有时候页面没有显示在菜单内，需要激活父级菜单时使用。
+Used to configure the currently active menu. Sometimes when the page is not displayed in the menu, it is used to activate the parent menu.
 
 ### affixTab
 
-- 类型：`boolean`
-- 默认值：`false`
+- Type: `boolean`
+- Default value: `false`
 
-用于配置页面是否固定标签页，固定后页面不可关闭。
+Used to configure whether the page tab is pinned. Once pinned, the page cannot be closed.
 
 ### affixTabOrder
 
-- 类型：`number`
-- 默认值：`0`
+- Type: `number`
+- Default value: `0`
 
-用于配置页面固定标签页的排序, 采用升序排序。
+Used to configure the order of the pinned page tabs, sorted in ascending order.
 
 ### iframeSrc
 
-- 类型：`string`
-- 默认值：`''`
+- Type: `string`
+- Default value: `''`
 
-用于配置内嵌页面的 `iframe` 地址，设置后会在当前页面内嵌对应的页面。
+Used to configure the `iframe` address of the embedded page. Once set, the corresponding page will be embedded in the current page.
 
 ### ignoreAccess
 
-- 类型：`boolean`
-- 默认值：`false`
+- Type: `boolean`
+- Default value: `false`
 
-用于配置页面是否忽略权限，直接可以访问。
+Used to configure whether the page ignores permissions and can be accessed directly.
 
 ### link
 
-- 类型：`string`
-- 默认值：`''`
+- Type: `string`
+- Default value: `''`
 
-用于配置外链跳转路径，会在新窗口打开。
+Used to configure the external link jump path, which will be opened in a new window.
 
 ### maxNumOfOpenTab
 
-- 类型：`number`
-- 默认值：`-1`
+- Type: `number`
+- Default value: `-1`
 
-用于配置标签页最大打开数量，设置后会在打开新标签页时自动关闭最早打开的标签页(仅在打开同名标签页时生效)。
+Used to configure the maximum number of open tabs. Once set, the earliest opened tab will be automatically closed when a new tab is opened (only effective when opening tabs with the same name).
 
 ### menuVisibleWithForbidden
 
-- 类型：`boolean`
-- 默认值：`false`
+- Type: `boolean`
+- Default value: `false`
 
-用于配置页面在菜单可以看到，但是访问会被重定向到403。
+Used to configure whether the page can be seen in the menu, but access will be redirected to 403.
 
 ### order
 
-- 类型：`number`
-- 默认值：`0`
+- Type: `number`
+- Default value: `0`
 
-用于配置页面的排序，用于路由到菜单排序。
+Used to configure the page's order, for routing to menu sorting.
 
-## 路由刷新
+## Route Refresh
 
-路由刷新方式如下：
+The way to refresh the route is as follows:
 
 ```vue
 <script setup lang="ts">
@@ -552,7 +554,7 @@ import { useRefresh } from '@vben/hooks';
 
 const { refresh } = useRefresh();
 
-// 刷新当前路由
+// Refresh the current route
 refresh();
 </script>
 ```
