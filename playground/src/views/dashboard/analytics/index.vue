@@ -8,10 +8,10 @@ import {
   AnalysisOverview,
 } from '@vben/common-ui';
 import {
-  SvgBellIcon,
+  SvgAbuseIcon,
   SvgCakeIcon,
   SvgCardIcon,
-  SvgDownloadIcon,
+  SvgTdesignScanIcon,
 } from '@vben/icons';
 
 import AnalyticsTrends from './analytics-trends.vue';
@@ -36,14 +36,14 @@ const overviewItems: AnalysisOverviewItem[] = [
     value: 20_000,
   },
   {
-    icon: SvgDownloadIcon,
+    icon: SvgAbuseIcon,
     title: '下载量',
     totalTitle: '总下载量',
     totalValue: 120_000,
     value: 8000,
   },
   {
-    icon: SvgBellIcon,
+    icon: SvgTdesignScanIcon,
     title: '使用量',
     totalTitle: '总使用量',
     totalValue: 50_000,
